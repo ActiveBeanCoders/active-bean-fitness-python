@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fitness_db_service', '0002_auto_20160223_0105'),
+        ('data_db_service', '0002_auto_20160223_0105'),
     ]
 
     operations = [

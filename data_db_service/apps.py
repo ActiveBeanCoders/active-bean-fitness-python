@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class FitnessDataConfig(AppConfig):
-    name = 'fitness_db_service'
+    name = 'data_db_service'

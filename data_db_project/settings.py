@@ -21,7 +21,7 @@ ALLOWED_HOSTS = []
 # by others in their projects.
 INSTALLED_APPS = [
     'rest_framework',
-    'fitness_db_service.apps.FitnessDataConfig',
+    'data_db_service.apps.FitnessDataConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +40,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fitness_db_service.urls'
+ROOT_URLCONF = 'data_db_service.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +58,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fitness_db_project.wsgi.application'
+WSGI_APPLICATION = 'data_db_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
