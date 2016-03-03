@@ -22,6 +22,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'data_db_service.apps.FitnessDataConfig',
+    'data_all_api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -31,3 +31,9 @@ class Activity(models.Model):
         managed = False
         db_table = 'activity'
 
+
+class ActivitySearchCriteria:
+    simple_criteria = {}
+
+    def __str__(self):
+        return str(self.simple_criteria)

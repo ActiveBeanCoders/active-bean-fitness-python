@@ -1,10 +1,12 @@
+import traceback
+
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from data_all_api.models import Activity
-from data_all_api.serializers import ActivitySerializer
+from data_all_api.serializers import ActivitySerializer, ActivitySearchCriteriaSerializer
 
 
 def devnull(request):
@@ -15,7 +17,7 @@ def devnull(request):
 def get(request, activityId):
     activity = Activity.objects.get(id=int(activityId))
     serializer = ActivitySerializer(activity)
-    return JsonResponse(serializer.data)
+    return Response(serializer.data)
 
 
 @api_view(['POST', ])
@@ -39,10 +41,14 @@ def recent(request, count):
 
 @api_view(['POST', ])
 def search(request):
-    # TODO: use serializer to parse request data into ActivitySearchCriteria object.
-    if 'fullText' not in request.data:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    criteria = request.data['fullText']
-    results = Activity.objects.filter(alltext__contains=criteria)
-    serializer = ActivitySerializer(results, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        # get the full text search criterion
+        criteria = ActivitySearchCriteriaSerializer(request.data).data
+        full_text = criteria['simple_criteria']['fullText']
+
+        # use the criterion to get search results
+        results = Activity.objects.filter(alltext__contains=full_text)
+        serializer = ActivitySerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except KeyError as e:
+        return Response({"error": "Missing key %s" % str(e)}, status=status.HTTP_400_BAD_REQUEST)

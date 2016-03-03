@@ -10,7 +10,7 @@ projects=(
     "data_db_api/"
     "data_es_api/"
     "fitness_common/"
-    "security-api/"
+    "security_api/"
 )
 printf '%s\n' "Installing: ${projects[*]}"
 
