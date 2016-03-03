@@ -49,7 +49,9 @@ Then copied the results from the terminal into models.py.
 
 
 ## Testing via curl:
+```
 curl -H "Content-Type: application/json" -X POST -d '{"simple_criteria": {"fullText":"Laps"} }' http://localhost:9000/api/activity/search/ && echo
+```
 
 ## Install your own code
 How to install your own code into the virtualenv so it can be imported anywhere
@@ -62,4 +64,12 @@ python
 from fitness_common import dantest
 dantest.sayhello()
 ```
+
+## TODO's
+
+* Create and add Postman config for testing REST endpoints.
+* Call another REST endpoint from service.  e.g. `data_all_service` calls `data_db_service` and `data_es_service`.
+* Implement `data_es_service`.
+* Implement `security_service`?
+* Implement `gateway`?
 
