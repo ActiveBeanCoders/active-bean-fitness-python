@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Activity
+from data_all_api.models import Activity
 
 
 # http://www.django-rest-framework.org/api-guide/serializers/

@@ -14,34 +14,20 @@ class Activity(models.Model):
     distance = models.FloatField(blank=True, null=True)
     unit = models.CharField(max_length=255, blank=True, null=True)
     user_id = models.BigIntegerField()
+    alltext = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.id) + ': ' + self.activity + ' ' + str(self.distance) + ' ' + self.unit + ' on ' + str(
                 self.date)
 
+    # TODO: populate alltext field on save, update
+    # this doesn't work...
+    def save(self, *args, **kwargs):
+        self.alltext = self.activity
+        super(Activity, self).save(*args, **kwargs)
+        # models.Model.save(self, *args, **kwargs)
+
     class Meta:
         managed = False
         db_table = 'activity'
-
-
-""" This belongs in a python security_service
-class DomainUser(models.Model):
-    username = models.CharField(primary_key=True, max_length=255)
-    comma_separated_roles = models.TextField()
-    nickname = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'domain_user'
-
-
-class DomainUserCredentials(models.Model):
-    username = models.CharField(primary_key=True, max_length=255)
-    password_hash = models.CharField(max_length=255, blank=True, null=True)
-    salt = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'domain_user_credentials'
-"""
 
