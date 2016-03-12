@@ -18,6 +18,7 @@ pip install --upgrade pip
 pip install django
 pip install djangorestframework
 pip install mysqlclient
+pip install elasticsearch-dsl
 export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
 ```
 

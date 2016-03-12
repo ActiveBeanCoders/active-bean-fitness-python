@@ -1,11 +1,9 @@
-import traceback
-
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from data_all_api.models import Activity
+from data_db_service.services import activity_service
 from data_all_api.serializers import ActivitySerializer, ActivitySearchCriteriaSerializer
 
 
@@ -14,14 +12,18 @@ def devnull(request):
 
 
 @api_view(['GET', ])
-def get(request, activityId):
-    activity = Activity.objects.get(id=int(activityId))
+def get(request, doc_id):
+    activity = activity_service.get(int(doc_id))
     serializer = ActivitySerializer(activity)
     return Response(serializer.data)
 
 
 @api_view(['POST', ])
 def add(request):
+    # if ID is missing, assign it
+    if not hasattr(request.data, 'id'):
+        request.data['id'] = activity_service.next_id()
+
     serializer = ActivitySerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -32,9 +34,7 @@ def add(request):
 
 @api_view(['GET', ])
 def recent(request, count):
-    if count is None or int(count) <= 0:
-        count = 10
-    recent_activities = Activity.objects.order_by('-date')[:int(count)]
+    recent_activities = activity_service.recent(count)
     serializer = ActivitySerializer(recent_activities, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -44,11 +44,16 @@ def search(request):
     try:
         # get the full text search criterion
         criteria = ActivitySearchCriteriaSerializer(request.data).data
-        full_text = criteria['simple_criteria']['fullText']
 
         # use the criterion to get search results
-        results = Activity.objects.filter(alltext__contains=full_text)
+        results = activity_service.search(criteria)
         serializer = ActivitySerializer(results, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except KeyError as e:
         return Response({"error": "Missing key %s" % str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', ])
+def max_id(request):
+    return Response({'id': activity_service.max_id()}, status=status.HTTP_200_OK)
+
