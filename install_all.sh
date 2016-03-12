@@ -17,6 +17,7 @@ printf '%s\n' "Installing: ${projects[*]}"
 for proj in ${projects[@]}; do
     cd ${proj} || die
     printf '%s\n' "Installing ${proj} (develop)"
+    python setup.py develop --uninstall
     python setup.py develop
     cd ..
 done
