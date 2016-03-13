@@ -69,8 +69,4 @@ dantest.sayhello()
 ## TODO's
 
 * Create and add Postman config for testing REST endpoints.
-* Call another REST endpoint from service.  e.g. `data_all_service` calls `data_db_service` and `data_es_service`.
-* Implement `data_es_service`.
-* Implement `security_service`?
-* Implement `gateway`?
 
