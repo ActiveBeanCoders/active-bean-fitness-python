@@ -2,6 +2,7 @@ from data_all_api.models import Activity
 import threading
 
 
+# TODO: move this to common location
 def synchronized(func):
     func.__lock__ = threading.Lock()
 

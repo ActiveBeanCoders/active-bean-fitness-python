@@ -1,3 +1,4 @@
+from data_all_api.models import Activity
 from django.http import HttpResponse
 from elasticsearch_dsl import Search
 from rest_framework import status
@@ -19,7 +20,7 @@ def devnull(request):
 def get(request, doc_id):
     activity = activity_service.get(doc_id)
     if activity is not None:
-        return Response(activity)
+        return Response(activity.to_dict())
     else:
         return Response({}, status=status.HTTP_200_OK)
 
@@ -27,8 +28,9 @@ def get(request, doc_id):
 @api_view(['POST', ])
 def add(request):
     try:
-        activity_service.add(request.data)
-        return Response(activity_service.get(request.data['id']), status=status.HTTP_200_OK)
+        activity = Activity(**request.data)
+        activity_service.save(activity)
+        return Response(activity_service.get(activity.id).to_dict(), status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -36,7 +38,7 @@ def add(request):
 @api_view(['GET', ])
 def recent(request, count):
     try:
-        s = Search(using=esclient.client, index=esclient.index, doc_type=esclient.doc_type) \
+        s = Search(using=esclient.client, index=activity_service.index, doc_type=activity_service.doc_type) \
             .sort("-%s" % ActivityEsFields.date) \
             .extra(size=count)
         response = s.execute()
@@ -60,7 +62,7 @@ def search(request):
         full_text = criteria['simple_criteria']['fullText']
 
         # use the criterion to get search results
-        s = Search(using=esclient.client, index=esclient.index, doc_type=esclient.doc_type) \
+        s = Search(using=esclient.client, index=activity_service.index, doc_type=activity_service.doc_type) \
             .query('match', _all=full_text)
         response = s.execute()
         if not hasattr(response, 'hits') or not hasattr(response.hits, 'hits'):

@@ -12,13 +12,5 @@ class ActivitySerializer(serializers.ModelSerializer):
             'user_id')
 
 
-def activity_decoder(o):
-    if '_type' in o and o['_type'] == 'Activity':
-        source = o['_source']
-        return Activity(o['_id'], source['activity'], source['comment'], source['date'], source['distHour'],
-                        source['distMin'], source['distSec'], source['distance'], source['unit'], source['userId'])
-    return o
-
-
 class ActivitySearchCriteriaSerializer(serializers.Serializer):
     simple_criteria = serializers.DictField()

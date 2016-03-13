@@ -62,20 +62,6 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'data_es_project.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
-DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'active_bean_fitness',
-#         'HOST': 'localhost',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'PORT': '3306',
-#     }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 

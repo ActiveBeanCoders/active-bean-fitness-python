@@ -1,6 +1,5 @@
 import threading
 
-import elasticsearch
 from data_es_api.models import ActivityEsFields
 from elasticsearch_dsl import Search
 
@@ -19,32 +18,36 @@ def synchronized(func):
 
 class ActivityService:
     max_doc_id = -1
+    index = 'com.activebeancoders.entity'
+    doc_type = 'Activity'
 
     def get(self, doc_id):
-        try:
-            activity = esclient.client.get(index='com.activebeancoders.entity', doc_type='Activity', id=doc_id)
-            return activity['_source']
-        except elasticsearch.exceptions.NotFoundError:
-            return None
+        return esclient.get(doc_id=doc_id, index=self.index, doc_type='Activity')
 
-    def add(self, body_as_dict):
-        if not hasattr(body_as_dict, 'id'):
-            body_as_dict['id'] = self.next_id()
-        response = esclient.client.index(
-                index=esclient.index,
-                doc_type=esclient.doc_type,
-                id=body_as_dict['id'], body=body_as_dict
-        )
+    def save(self, model):
+        if not hasattr(model, 'id') or model.id is None:
+            model.id = self.next_id()
+        response = esclient.save(model=model, index=self.index, doc_type=self.doc_type)
         if 'created' in response:
             return response['created']
         return False
 
+    def delete(self, doc_id):
+        try:
+            esclient.client.delete(index=activity_service.index, doc_type=activity_service.doc_type, id=doc_id)
+            return True
+        except Exception:
+            return False
+
     def max_id(self):
-        s = Search(using=esclient.client, index=esclient.index, doc_type=esclient.doc_type) \
-            .sort("-%s" % ActivityEsFields.id) \
-            .extra(size=1, _source='id')
-        response = s.execute()
-        return response.hits.hits[0]['_source']['id']
+        try:
+            s = Search(using=esclient.client, index=self.index, doc_type=self.doc_type) \
+                .sort("-%s" % ActivityEsFields.id) \
+                .extra(size=1, _source='id')
+            response = s.execute()
+            return response.hits.hits[0]['_source']['id']
+        except IndexError:
+            return 1
 
     # TODO: this is a bottleneck.  Need to get around this somehow.
     @synchronized
