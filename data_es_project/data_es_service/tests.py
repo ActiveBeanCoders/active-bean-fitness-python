@@ -1,4 +1,4 @@
-from data_all_api.models import Activity
+from data_es_api.models import ActivityEs
 from django.test import SimpleTestCase  # no db creation
 
 from data_es_service.services import activity_service
@@ -11,7 +11,7 @@ class ActivityEsServiceTestCase(SimpleTestCase):
 
     def test_save_get_delete(self):
         self.assertIsNone(activity_service.get(1))
-        activity_service.save(Activity(id=1, user_id=1, comment="hello world"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hello world"))
         activity = activity_service.get(1)
         self.assertIsNotNone(activity)
         self.assertEqual(1, activity.id)

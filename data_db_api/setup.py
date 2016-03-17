@@ -8,5 +8,5 @@ setup(name='data_db_api',
       author_email='danielbarrese@gmail.com',
       license='MIT',
       packages=['data_db_api'],
-      zip_safe=False)
+      zip_safe=False, requires=['django'])
 

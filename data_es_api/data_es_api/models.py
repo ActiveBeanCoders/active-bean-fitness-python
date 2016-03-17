@@ -1,3 +1,6 @@
+from data_all_api.models import Activity
+
+
 class ActivityEsFields:
     id = 'id'
     activity = 'activity'
@@ -8,6 +11,12 @@ class ActivityEsFields:
     distSec = 'distSec'
     distance = 'distance'
     unit = 'unit'
-    user_id = 'userId'
-    alltext = 'alltext'
+    userId = 'userId'
+
+
+class ActivityEs(Activity):
+    def save(self, *args, **kwargs):
+        # TODO save
+        print("TODO save")
+
 

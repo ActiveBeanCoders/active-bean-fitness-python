@@ -12,8 +12,6 @@ SECRET_KEY = 'won4egamwdq0c4kchwld$ze^61qcknp19pn*xl$9)m7=nen0qd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 # holds the names of all Django applications that are activated in this Django instance.
@@ -23,43 +21,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'data_db_service.apps.FitnessDataConfig',
     'data_all_api',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-
-MIDDLEWARE_CLASSES = [
-#     'django.middleware.security.SecurityMiddleware',
-#     'django.contrib.sessions.middleware.SessionMiddleware',
-#     'django.middleware.common.CommonMiddleware',
-#     'django.middleware.csrf.CsrfViewMiddleware',
-#     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#     'django.contrib.messages.middleware.MessageMiddleware',
-#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'data_db_api',
 ]
 
 ROOT_URLCONF = 'data_db_service.urls'
-
-TEMPLATES = [
-    # {
-    #     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    #     'DIRS': [],
-    #     'APP_DIRS': True,
-    #     'OPTIONS': {
-    #         'context_processors': [
-    #             'django.template.context_processors.debug',
-    #             'django.template.context_processors.request',
-    #             'django.contrib.auth.context_processors.auth',
-    #             'django.contrib.messages.context_processors.messages',
-    #         ],
-    #     },
-    # },
-]
-
-# WSGI_APPLICATION = 'data_db_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -72,44 +37,20 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'PORT': '3306',
+        'TEST': {
+            'NAME': 'active_bean_fitness_test',
+        }
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#     },
-]
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'America/Denver'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/dev/howto/static-files/
-
-STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (

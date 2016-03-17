@@ -1,6 +1,5 @@
-import data_all_api
+import data_es_api
 import elasticsearch
-from data_all_api.models import Activity
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import connections
 
@@ -15,7 +14,7 @@ def save(model, index, doc_type):
 def get(doc_id, index, doc_type):
     try:
         o = client.get(id=doc_id, index=index, doc_type=doc_type)
-        class_ = getattr(data_all_api.models, doc_type)
+        class_ = getattr(data_es_api.models, doc_type)
         return class_(**o['_source'])
     except elasticsearch.exceptions.NotFoundError:
         return None

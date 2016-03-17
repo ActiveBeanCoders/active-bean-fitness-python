@@ -1,4 +1,3 @@
-from data_all_api.models import Activity
 from django.http import HttpResponse
 from elasticsearch_dsl import Search
 from rest_framework import status
@@ -6,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from data_all_api.serializers import ActivitySearchCriteriaSerializer
-from data_es_api.models import ActivityEsFields
+from data_es_api.models import ActivityEsFields, ActivityEs
 
 from data_es_service import esclient
 from data_es_service.services import activity_service
@@ -28,7 +27,7 @@ def get(request, doc_id):
 @api_view(['POST', ])
 def add(request):
     try:
-        activity = Activity(**request.data)
+        activity = ActivityEs(**request.data)
         activity_service.save(activity)
         return Response(activity_service.get(activity.id).to_dict(), status=status.HTTP_200_OK)
     except Exception as e:

@@ -19,10 +19,10 @@ def synchronized(func):
 class ActivityService:
     max_doc_id = -1
     index = 'com.activebeancoders.entity'
-    doc_type = 'Activity'
+    doc_type = 'ActivityEs'
 
     def get(self, doc_id):
-        return esclient.get(doc_id=doc_id, index=self.index, doc_type='Activity')
+        return esclient.get(doc_id=doc_id, index=self.index, doc_type=self.doc_type)
 
     def save(self, model):
         if not hasattr(model, 'id') or model.id is None:
@@ -34,7 +34,7 @@ class ActivityService:
 
     def delete(self, doc_id):
         try:
-            esclient.client.delete(index=activity_service.index, doc_type=activity_service.doc_type, id=doc_id)
+            esclient.client.delete(index=self.index, doc_type=self.doc_type, id=doc_id)
             return True
         except Exception:
             return False

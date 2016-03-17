@@ -24,10 +24,11 @@ cd foo_project
 sh run.sh
 ```
 
-## Testing via curl
+## Testing
 
-There are various scripts in the project under the `curl_tests` subfolder that
-can be used to hit REST endpoints of running python microservices.
+```
+python manage.py test
+```
 
 ## TODO
 
