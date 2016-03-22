@@ -1,15 +1,20 @@
 from rest_framework import serializers
-from data_all_api.models import Activity, ActivitySearchCriteria
+from data_all_api.models import ActivitySearchCriteria
+from data_db_api.models import ActivityModel
 
 
 # http://www.django-rest-framework.org/api-guide/serializers/
 # TODO: format date on serialization
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Activity
+        model = ActivityModel
         fields = (
-            'id', 'activity', 'comment', 'date', 'distHour', 'distMin', 'distSec', 'distance', 'unit', 'userId')
+            'id', 'activity', 'comment', 'date', 'dist_hour', 'dist_min', 'dist_sec', 'distance', 'unit', 'user_id')
 
 
 class ActivitySearchCriteriaSerializer(serializers.Serializer):
-    simple_criteria = serializers.DictField()
+    simpleCriteria = serializers.DictField()
+
+    def create(self):
+        return ActivitySearchCriteria(**self.validated_data)
+

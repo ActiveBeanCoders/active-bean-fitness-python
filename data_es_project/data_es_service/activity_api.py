@@ -1,11 +1,10 @@
+from data_all_api.serializers import ActivitySearchCriteriaSerializer
+from data_es_api.models import ActivityEsFields, ActivityEs
 from django.http import HttpResponse
 from elasticsearch_dsl import Search
 from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-from data_all_api.serializers import ActivitySearchCriteriaSerializer
-from data_es_api.models import ActivityEsFields, ActivityEs
+from rest_framework.response import Response
 
 from data_es_service import esclient
 from data_es_service.services import activity_service
@@ -56,22 +55,14 @@ def recent(request, count):
 @api_view(['POST', ])
 def search(request):
     try:
-        # get the full text search criterion
-        criteria = ActivitySearchCriteriaSerializer(request.data).data
-        full_text = criteria['simple_criteria']['fullText']
-
-        # use the criterion to get search results
-        s = Search(using=esclient.client, index=activity_service.index, doc_type=activity_service.doc_type) \
-            .query('match', _all=full_text)
-        response = s.execute()
-        if not hasattr(response, 'hits') or not hasattr(response.hits, 'hits'):
-            return Response({})
-
-        # create new array with just the model data without metadata
-        results = []
-        for hit in response:
-            results.append(hit.to_dict())
-        return Response(results, status=status.HTTP_200_OK)
+        # TODO: should probably not be converting JSON -> objects -> JSON for every rest call.
+        criteria = ActivitySearchCriteriaSerializer(data=request.data)
+        criteria.is_valid()
+        results = activity_service.search(criteria.create())
+        response = []
+        for hit in results:
+            response.append(hit.to_dict())
+        return Response(response, status=status.HTTP_200_OK)
     except KeyError as e:
         return Response({'error': "Missing key %s" % str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -82,4 +73,3 @@ def max_id(request):
         return Response({'id': activity_service.max_id()})
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-

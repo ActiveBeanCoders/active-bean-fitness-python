@@ -22,6 +22,12 @@ INSTALLED_APPS = [
     'data_db_service.apps.FitnessDataConfig',
     'data_all_api',
     'data_db_api',
+    # 'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    # 'django.contrib.sessions',
+    # 'django.contrib.messages',
+    'django.contrib.staticfiles',
 ]
 
 ROOT_URLCONF = 'data_db_service.urls'
@@ -51,6 +57,11 @@ TIME_ZONE = 'America/Denver'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+
+STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (

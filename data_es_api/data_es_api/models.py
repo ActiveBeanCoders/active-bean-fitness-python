@@ -6,17 +6,15 @@ class ActivityEsFields:
     activity = 'activity'
     comment = 'comment'
     date = 'date'
-    distHour = 'distHour'
-    distMin = 'distMin'
-    distSec = 'distSec'
+    dist_hour = 'dist_hour'
+    dist_min = 'dist_min'
+    dist_sec = 'dist_sec'
     distance = 'distance'
     unit = 'unit'
-    userId = 'userId'
+    user_id = 'user_id'
 
 
 class ActivityEs(Activity):
     def save(self, *args, **kwargs):
         # TODO save
         print("TODO save")
-
-

@@ -8,23 +8,23 @@ class Activity:
     activity = None
     comment = None
     date = None
-    distHour = None
-    distMin = None
-    distSec = None
+    dist_hour = None
+    dist_min = None
+    dist_sec = None
     distance = None
     unit = None
-    userId = -1
+    user_id = -1
 
-    def __init__(self, userId, id=None, activity=None, comment=None, date=None, distHour=None, distMin=None,
-                 distSec=None, distance=None, unit=None):
-        self.userId = userId
+    def __init__(self, user_id, id=None, activity=None, comment=None, date=None, dist_hour=None, dist_min=None,
+                 dist_sec=None, distance=None, unit=None):
+        self.user_id = user_id
         self.id = id
         self.activity = activity
         self.comment = comment
         self.date = date
-        self.distHour = distHour
-        self.distMin = distMin
-        self.distSec = distSec
+        self.dist_hour = dist_hour
+        self.dist_min = dist_min
+        self.dist_sec = dist_sec
         self.distance = distance
         self.unit = unit
 
@@ -36,7 +36,10 @@ class Activity:
 
 
 class ActivitySearchCriteria:
-    simple_criteria = {}
+    simpleCriteria = {}
+
+    def __init__(self, simpleCriteria):
+        self.simpleCriteria = simpleCriteria
 
     def __str__(self):
-        return str(self.simple_criteria)
+        return str(self.simpleCriteria)

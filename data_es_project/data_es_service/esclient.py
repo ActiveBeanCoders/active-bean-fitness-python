@@ -7,8 +7,8 @@ connections.connections.create_connection(hosts=['localhost'], timeout=20)
 client = Elasticsearch()
 
 
-def save(model, index, doc_type):
-    return client.index(index=index, doc_type=doc_type, id=model.id, body=model.to_dict())
+def save(model, index, doc_type, refresh=False):
+    return client.index(index=index, doc_type=doc_type, id=model.id, body=model.to_dict(), refresh=refresh)
 
 
 def get(doc_id, index, doc_type):

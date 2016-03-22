@@ -35,15 +35,15 @@ class ActivityService:
 
     def search(self, criteria):
         # get the full text search criterion
-        full_text = criteria['simple_criteria']['fullText']
+        fullText = criteria['simpleCriteria']['fullText']
 
         # use the criterion to get search results
-        return ActivityModel.objects.filter(alltext__contains=full_text)
+        return ActivityModel.objects.filter(alltext__contains=fullText)
 
     def max_id(self):
         try:
             return ActivityModel.objects.latest('id').id
-        except ActivityModel.DoesNotExist as e:
+        except ActivityModel.DoesNotExist:
             return 0
 
     # TODO: this is a bottleneck.  Need to get around this somehow.

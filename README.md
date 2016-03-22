@@ -32,8 +32,8 @@ python manage.py test
 
 ## TODO
 
-* populate alltext field on save, update (mysql)
 * `next_id` is a bottleneck.  figure out a way around it. (mysql, es)
 * figure out pythonic Activity.save() for Elasticsearch entities.
 * https
+* is base Activity class needed?
 
