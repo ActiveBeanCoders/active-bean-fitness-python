@@ -5,7 +5,7 @@ from elasticsearch_dsl import connections
 
 connections.connections.create_connection(hosts=['localhost'], timeout=20)
 client = Elasticsearch()
-
+datetime_format = "%Y-%m-%d %H:%M:%S"
 
 def save(model, index, doc_type, refresh=False):
     return client.index(index=index, doc_type=doc_type, id=model.id, body=model.to_dict(), refresh=refresh)

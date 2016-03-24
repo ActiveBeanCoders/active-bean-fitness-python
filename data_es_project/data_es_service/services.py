@@ -1,5 +1,6 @@
 import threading
 
+import datetime
 from data_es_api.models import ActivityEsFields
 from elasticsearch_dsl import Search
 
@@ -32,6 +33,9 @@ class ActivityService:
     def save(self, model):
         if not hasattr(model, 'id') or model.id is None:
             model.id = self.next_id()
+        # http://strftime.org/
+        if model.date is not None and isinstance(model.date, datetime.datetime):
+            model.date = model.date.strftime(esclient.datetime_format)
         response = esclient.save(model=model, index=self.index, doc_type=self.doc_type, refresh=self.refresh)
         if 'created' in response:
             return response['created']

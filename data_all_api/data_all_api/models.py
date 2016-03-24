@@ -38,8 +38,11 @@ class Activity:
 class ActivitySearchCriteria:
     simpleCriteria = {}
 
-    def __init__(self, simpleCriteria):
+    def __init__(self, simpleCriteria=None):
         self.simpleCriteria = simpleCriteria
+        if self.simpleCriteria is None:
+            self.simpleCriteria = {}
 
     def __str__(self):
         return str(self.simpleCriteria)
+

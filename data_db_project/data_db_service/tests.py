@@ -7,8 +7,10 @@ from rest_framework.test import APITestCase
 
 from data_db_service.services import activity_service
 
+# noinspection PyProtectedMember
 unmanaged_models = [m for m in apps.get_models() if not m._meta.managed]
 for m in unmanaged_models:
+    # noinspection PyProtectedMember
     m._meta.managed = True
 
 
@@ -90,3 +92,4 @@ class ActivityRestApiTestCase(APITestCase):
         activity_service.save(ActivityModel(id=1, user_id=1, comment="hi"))
         maxid = self.client.get('/api/activity/maxid').data['id']
         self.assertEqual(1, maxid)
+
