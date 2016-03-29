@@ -53,7 +53,7 @@ class ActivityEsServiceTestCase(SimpleTestCase):
         pre_test()
 
     def test_save_get_delete(self):
-        activity_service.save(ActivityEs(id=1, user_id=1, comment="hello world"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hello world"))
         activity = activity_service.get(1)
         self.assertIsNotNone(activity)
         self.assertEqual(1, activity.id)
@@ -62,9 +62,9 @@ class ActivityEsServiceTestCase(SimpleTestCase):
         self.assertIsNone(activity_service.get(activity.id))
 
     def test_recent(self):
-        activity_service.save(ActivityEs(id=1, user_id=1, date=datetime.datetime(2016, 1, 1)))
-        activity_service.save(ActivityEs(id=2, user_id=1, date=datetime.datetime(2016, 3, 1)))
-        activity_service.save(ActivityEs(id=3, user_id=1, date=datetime.datetime(2016, 2, 1)))
+        activity_service.save(ActivityEs(id=1, userId=1, date=datetime.datetime(2016, 1, 1)))
+        activity_service.save(ActivityEs(id=2, userId=1, date=datetime.datetime(2016, 3, 1)))
+        activity_service.save(ActivityEs(id=3, userId=1, date=datetime.datetime(2016, 2, 1)))
         activities = activity_service.recent(10)
         self.assertIsNotNone(activities)
         self.assertEqual(2, activities[0].id)
@@ -72,8 +72,8 @@ class ActivityEsServiceTestCase(SimpleTestCase):
         self.assertEqual(1, activities[2].id)
 
     def test_search(self):
-        activity_service.save(ActivityEs(id=1, user_id=1, comment="hi"))
-        activity_service.save(ActivityEs(id=2, user_id=1, comment="bye"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hi"))
+        activity_service.save(ActivityEs(id=2, userId=1, comment="bye"))
         criteria = ActivitySearchCriteria()
         criteria.simpleCriteria['fullText'] = "hi"
         activities = activity_service.search(criteria=criteria)
@@ -83,12 +83,12 @@ class ActivityEsServiceTestCase(SimpleTestCase):
 
     def test_max_id(self):
         self.assertEqual(0, activity_service.max_id())
-        activity_service.save(ActivityEs(id=1, user_id=1, comment="hi"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hi"))
         self.assertEqual(1, activity_service.max_id())
 
     def test_next_id(self):
         self.assertEqual(1, activity_service.next_id())
-        activity_service.save(ActivityEs(id=1, user_id=1, comment="hi"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hi"))
         self.assertEqual(2, activity_service.next_id())
 
 
@@ -97,17 +97,17 @@ class ActivityRestApiTestCase(APISimpleTestCase):
         pre_test()
 
     def test_add(self):
-        data = dict(id=1, user_id=1, comment="hello world")
+        data = dict(id=1, userId=1, comment="hello world")
         self.client.post('/api/activity/add', data=data, format='json')
         self.assertIsNotNone(activity_service.get(1))
 
     def test_recent(self):
         ids = []
-        response = self.client.post('/api/activity/add', data=dict(user_id=1, date=datetime.datetime(2016, 1, 1).strftime(esclient.datetime_format)), format='json')
+        response = self.client.post('/api/activity/add', data=dict(userId=1, date=datetime.datetime(2016, 1, 1).strftime(esclient.datetime_format)), format='json')
         ids.append(response.data['id'])
-        response = self.client.post('/api/activity/add', data=dict(user_id=1, date=datetime.datetime(2016, 3, 1).strftime(esclient.datetime_format)), format='json')
+        response = self.client.post('/api/activity/add', data=dict(userId=1, date=datetime.datetime(2016, 3, 1).strftime(esclient.datetime_format)), format='json')
         ids.append(response.data['id'])
-        response = self.client.post('/api/activity/add', data=dict(user_id=1, date=datetime.datetime(2016, 2, 1).strftime(esclient.datetime_format)), format='json')
+        response = self.client.post('/api/activity/add', data=dict(userId=1, date=datetime.datetime(2016, 2, 1).strftime(esclient.datetime_format)), format='json')
         ids.append(response.data['id'])
         activities = self.client.get('/api/activity/recent/10')
         self.assertEqual(ids[1], activities.data[0]['id'])
@@ -115,8 +115,8 @@ class ActivityRestApiTestCase(APISimpleTestCase):
         self.assertEqual(ids[0], activities.data[2]['id'])
 
     def test_search(self):
-        self.client.post('/api/activity/add', data=dict(id=1, user_id=1, comment="hi"), format='json')
-        self.client.post('/api/activity/add', data=dict(id=2, user_id=1, comment="bye"), format='json')
+        self.client.post('/api/activity/add', data=dict(id=1, userId=1, comment="hi"), format='json')
+        self.client.post('/api/activity/add', data=dict(id=2, userId=1, comment="bye"), format='json')
         data = dict(simpleCriteria=dict(fullText="hi"))
         activities = self.client.post('/api/activity/search', data=data, format='json')
         self.assertEqual(1, len(activities.data))
@@ -125,6 +125,6 @@ class ActivityRestApiTestCase(APISimpleTestCase):
     def test_maxid(self):
         maxid = self.client.get('/api/activity/maxid').data['id']
         self.assertEqual(0, maxid)
-        activity_service.save(ActivityEs(id=1, user_id=1, comment="hi"))
+        activity_service.save(ActivityEs(id=1, userId=1, comment="hi"))
         maxid = self.client.get('/api/activity/maxid').data['id']
         self.assertEqual(1, maxid)

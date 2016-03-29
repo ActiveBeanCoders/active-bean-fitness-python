@@ -1,3 +1,8 @@
+# Overview
+
+This project is a simple webapp implemented using a few Python microservices
+and an existing MySQL database and Elasticsearch index.
+
 ## How to run the project
 
 Here are the steps to run the Python microservices in this project.
@@ -33,7 +38,6 @@ python manage.py test
 ## TODO
 
 * `next_id` is a bottleneck.  figure out a way around it. (mysql, es)
-* figure out pythonic Activity.save() for Elasticsearch entities.
 * https
 * is base Activity class needed?
 

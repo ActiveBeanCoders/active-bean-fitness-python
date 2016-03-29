@@ -6,12 +6,12 @@ class ActivityEsFields:
     activity = 'activity'
     comment = 'comment'
     date = 'date'
-    dist_hour = 'dist_hour'
-    dist_min = 'dist_min'
-    dist_sec = 'dist_sec'
+    distHour = 'distHour'
+    distMin = 'distMin'
+    distSec = 'distSec'
     distance = 'distance'
     unit = 'unit'
-    user_id = 'user_id'
+    userId = 'userId'
 
 
 class ActivityEs(Activity):
